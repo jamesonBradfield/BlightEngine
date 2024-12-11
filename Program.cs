@@ -1,11 +1,14 @@
 ﻿using Raylib_cs;
 using ImGuiNET;
 using rlImGui_cs;
-
+using Engine;
 Raylib.InitWindow(Raylib.GetScreenWidth() / 2, Raylib.GetScreenHeight() / 2,
                   "Camera2D component system");
 // before your game loop
 rlImGui.Setup(true); // sets up ImGui with ether a dark or light default theme
+Scene scene = new Scene();
+Camera cameraGameObject = new Camera("3D scene Camera");
+scene.AddGameObject(cameraGameObject);
 while (!Raylib.WindowShouldClose()) {
   Raylib.BeginDrawing();
   Raylib.ClearBackground(Color.Gray);

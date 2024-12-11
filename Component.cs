@@ -1,6 +1,8 @@
 using Raylib_cs;
+using ImGuiNET;
 namespace Engine {
 public class Component {
+  protected string name;
   protected GameObject _gameObject { set; private get; }
   public GameObject gameObject {
     set { _gameObject = value; }
