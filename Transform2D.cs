@@ -23,47 +23,33 @@ public class Transform2D : Component {
   private void RecalculateRotation() { throw new NotImplementedException(); }
   public Vector2 Position {
     get => _Position;
-    set {
-      _Position = value;
-      RecalculatePosition();
-    }
+    set { _Position = RecalculatePosition(value); }
   }
   Vector2 _Position;
 
-  private void RecalculatePosition() { throw new NotImplementedException(); }
-
-  public Transform2D() {
-    this.Position = Vector2.Zero;
-    this.Rotation = 0.0f;
-    this.Scale = Vector2.One;
-    name = GetType().ToString();
+  private Vector2 RecalculatePosition(Vector2 newPosition) {
+    if (_gameObject.Parent is not null) {
+      return newPosition + _gameObject.Parent.Transform.Position;
+    }
+    return newPosition;
   }
 
-  public Transform2D(Vector2 Position) {
-    this.Position = Position;
-    this.Rotation = 0.0f;
-    this.Scale = Vector2.One;
-    name = GetType().ToString();
-  }
-
-  public Transform2D(Vector2 Position, float Rotation) {
-    this.Position = Position;
-    this.Rotation = Rotation;
-    this.Scale = Vector2.One;
-    name = GetType().ToString();
-  }
-
-  public Transform2D(Vector2 Position, Vector2 Scale) {
-    this.Position = Position;
-    this.Rotation = 0.0f;
-    this.Scale = Scale;
-    name = GetType().ToString();
-  }
-
-  public Transform2D(Vector2 Position, float Rotation, Vector2 Scale) {
-    this.Position = Position;
-    this.Rotation = Rotation;
-    this.Scale = Scale;
+  public Transform2D(Vector2? Position, float? Rotation, Vector2? Scale) {
+    if (Position is not null) {
+      this.Position = (Vector2)Position;
+    } else {
+      this.Position = Vector2.Zero;
+    }
+    if (Rotation is not null) {
+      this.Rotation = (float)Rotation;
+    } else {
+      this.Rotation = 0.0f;
+    }
+    if (Scale is not null) {
+      this.Scale = (Vector2)Scale;
+    } else {
+      this.Scale = Vector2.One;
+    }
     name = GetType().ToString();
   }
 

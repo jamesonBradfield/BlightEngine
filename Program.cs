@@ -6,9 +6,8 @@ Raylib.InitWindow(Raylib.GetScreenWidth() / 2, Raylib.GetScreenHeight() / 2,
                   "Camera2D component system");
 // before your game loop
 rlImGui.Setup(true); // sets up ImGui with ether a dark or light default theme
-Scene scene = new Scene();
-Camera cameraGameObject = new Camera("3D scene Camera");
-scene.AddGameObject(cameraGameObject);
+Scene scene = Scene.Instance;
+scene.AddGameObject(new Camera2DGameObject("Camera", null, null));
 while (!Raylib.WindowShouldClose()) {
   Raylib.BeginDrawing();
   Raylib.ClearBackground(Color.Gray);
@@ -16,7 +15,7 @@ while (!Raylib.WindowShouldClose()) {
   rlImGui.Begin(); // starts the ImGui content mode. Make all ImGui calls after
                    // this
   ImGui.Begin("window");
-
+  scene.DrawHierarchy();
   rlImGui
       .End(); // ends the ImGui content mode. Make all ImGui calls before this
   Raylib.EndDrawing();

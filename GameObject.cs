@@ -4,7 +4,6 @@ public class GameObject {
   public string name;
   private List<GameObject> _Children = new List<GameObject>();
   private GameObject? _Parent;
-  private Transform2D _Transform;
   private List<Component> components = new List<Component>();
 
   public List<GameObject> Children {
@@ -21,25 +20,24 @@ public class GameObject {
     get => _Transform;
     set => _Transform = value;
   }
-  public GameObject() {
-    this.name = "GameObject";
-    this.Transform = new Transform2D();
-  }
+  private Transform2D _Transform;
 
-  public GameObject(string name) {
-    this.name = name;
-    this.Transform = new Transform2D();
-  }
-
-  public GameObject(string name, Transform2D Transform) {
-    this.name = name;
-    this.Transform = Transform;
-  }
-
-  public GameObject(string name, GameObject Parent, Transform2D Transform) {
-    this.name = name;
-    this.Parent = Parent;
-    this.Transform = Transform;
+  public GameObject(string? name, GameObject? Parent, Transform2D? Transform) {
+    if (name is not null) {
+      this.name = name;
+    } else {
+      this.name = "GameObject";
+    }
+    if (Parent is not null) {
+      this.Parent = Parent;
+    } else {
+      this.Parent = null;
+    }
+    if (Transform is not null) {
+      this.Transform = Transform;
+    } else {
+      this.Transform = new Transform2D(null, null, null);
+    }
   }
 
   public Component GetComponent<T>()
@@ -54,7 +52,10 @@ public class GameObject {
   }
 
   public virtual void AddComponent<T>(T component)
-      where T : Component { components.Add(component); }
+      where T : Component {
+    component.gameObject = this;
+    components.Add(component);
+  }
 
   public virtual void Initialize() {
     foreach (Component component in components) {
@@ -62,13 +63,13 @@ public class GameObject {
     }
   }
 
-  public virtual void Draw(Camera2D camera) {
+  public virtual void Draw(Camera2D? camera) {
     foreach (Component component in components) {
       component.Draw(camera);
     }
   }
 
-  public virtual void Draw(Camera3D camera) {
+  public virtual void Draw(Camera3D? camera) {
     foreach (Component component in components) {
       component.Draw(camera);
     }

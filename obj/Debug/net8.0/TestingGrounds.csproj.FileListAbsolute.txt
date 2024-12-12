@@ -27,3 +27,4 @@
 /home/jamie/proj/raylib/TestingGrounds/obj/Debug/net8.0/TestingGrounds.pdb
 /home/jamie/proj/raylib/TestingGrounds/obj/Debug/net8.0/TestingGrounds.genruntimeconfig.cache
 /home/jamie/proj/raylib/TestingGrounds/obj/Debug/net8.0/ref/TestingGrounds.dll
+/home/jamie/proj/raylib/TestingGrounds/obj/Debug/net8.0/TestingGrounds.sourcelink.json
