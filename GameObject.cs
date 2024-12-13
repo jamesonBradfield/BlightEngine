@@ -34,9 +34,9 @@ public class GameObject {
       this.Parent = null;
     }
     if (Transform is not null) {
-      this.Transform = Transform;
+      this.AddComponent<Transform2D>(Transform);
     } else {
-      this.Transform = new Transform2D(null, null, null);
+      this.AddComponent<Transform2D>(new Transform2D(null, null, null, this));
     }
   }
 
@@ -44,7 +44,6 @@ public class GameObject {
       where T : Component {
     try {
       Component component = components.Find(x => x is T);
-      component.gameObject = this;
       return component;
     } catch {
       throw new SystemException("Component not found");
@@ -53,7 +52,7 @@ public class GameObject {
 
   public virtual void AddComponent<T>(T component)
       where T : Component {
-    component.gameObject = this;
+    component.SetGameObject<GameObject>(this);
     components.Add(component);
   }
 

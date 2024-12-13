@@ -4,23 +4,27 @@ namespace Engine {
 public class Transform2D : Component {
   public Vector2 Scale {
     get => _Scale;
-    set {
-      _Scale = value;
-      RecalculateScale();
-    }
+    set { _Scale = RecalculateScale(value); }
   }
   Vector2 _Scale;
-  private void RecalculateScale() { throw new NotImplementedException(); }
+  private Vector2 RecalculateScale(Vector2 newScale) {
+    if (_gameObject.Parent is not null) {
+      return newScale + _gameObject.Parent.Transform.Scale;
+    }
+    return newScale;
+  }
   public float Rotation {
     get => _Rotation;
-    set {
-      _Rotation = value;
-      RecalculateRotation();
-    }
+    set { _Rotation = RecalculateRotation(value); }
   }
   float _Rotation;
 
-  private void RecalculateRotation() { throw new NotImplementedException(); }
+  private float RecalculateRotation(float newRotation) {
+    if (_gameObject.Parent is not null) {
+      return newRotation + _gameObject.Parent.Transform.Rotation;
+    }
+    return newRotation;
+  }
   public Vector2 Position {
     get => _Position;
     set { _Position = RecalculatePosition(value); }
@@ -34,7 +38,9 @@ public class Transform2D : Component {
     return newPosition;
   }
 
-  public Transform2D(Vector2? Position, float? Rotation, Vector2? Scale) {
+  public Transform2D(Vector2? Position, float? Rotation, Vector2? Scale,
+                     GameObject gameObject) {
+    this._gameObject = gameObject;
     if (Position is not null) {
       this.Position = (Vector2)Position;
     } else {
@@ -54,7 +60,7 @@ public class Transform2D : Component {
   }
 
   public override void DrawInspector() {
-    if (ImGui.Button(name)) {
+    if (ImGui.ArrowButton(name, ImGuiDir.Down)) {
       ImGui.DragFloat2("Position", ref _Position);
       ImGui.DragFloat("Rotation", ref _Rotation);
       ImGui.DragFloat2("Scale", ref _Position);
