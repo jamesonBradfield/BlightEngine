@@ -1,13 +1,19 @@
 using System.Numerics;
-using Raylib_cs;
 namespace Engine {
 public class Camera2DGameObject : GameObject {
-  public CameraComponent cameraComponent;
-  public Camera2DGameObject(string? name, GameObject? Parent,
-                            Transform2D? Transform)
-      : base(name, Parent, Transform) {
-    this.AddComponent<CameraComponent>(
-        new(Vector2.Zero, Vector2.One, 0.0f, 0.0f));
+  public CameraComponent2D cameraComponent;
+  public Camera2DGameObject(GameObject Parent, Transform2D Transform)
+      : base(Parent, Transform) {
+    cameraComponent = new(Vector2.Zero, Vector2.One, 0.0f, 0.0f);
+    this.AddComponent<CameraComponent2D>(cameraComponent);
+  }
+  public Camera2DGameObject(Transform2D Transform) : base(Transform) {
+    cameraComponent = new(Vector2.Zero, Vector2.One, 0.0f, 0.0f);
+    this.AddComponent<CameraComponent2D>(cameraComponent);
+  }
+  public Camera2DGameObject() : base() {
+    cameraComponent = new(Vector2.Zero, Vector2.One, 0.0f, 0.0f);
+    this.AddComponent<CameraComponent2D>(cameraComponent);
   }
 
   public override void AddComponent<T>(T component) {

@@ -1,19 +1,26 @@
 using Raylib_cs;
+using System.Numerics;
 namespace Engine {
 public class GameObject {
   public string name;
-  private List<GameObject> _Children = new List<GameObject>();
+  private List<GameObject>? _Children = new List<GameObject>();
   private GameObject? _Parent;
   private List<Component> components = new List<Component>();
 
-  public List<GameObject> Children {
+  public List<GameObject>? Children {
     get => _Children;
-    set => _Children = value;
+    set {
+      Transform.SetChildren(value);
+      _Children = value;
+    }
   }
 
   public GameObject? Parent {
     get => _Parent;
-    set => _Parent = value;
+    set {
+      Transform.SetParent(value);
+      _Parent = value;
+    }
   }
 
   public Transform2D Transform {
@@ -21,23 +28,25 @@ public class GameObject {
     set => _Transform = value;
   }
   private Transform2D _Transform;
+  public GameObject(GameObject Parent, Transform2D Transform) {
+    this.name = "GameObject";
+    this.Parent = Parent;
+    this.Transform = Transform;
+    this.AddComponent<Transform2D>(Transform);
+  }
 
-  public GameObject(string? name, GameObject? Parent, Transform2D? Transform) {
-    if (name is not null) {
-      this.name = name;
-    } else {
-      this.name = "GameObject";
-    }
-    if (Parent is not null) {
-      this.Parent = Parent;
-    } else {
-      this.Parent = null;
-    }
-    if (Transform is not null) {
-      this.AddComponent<Transform2D>(Transform);
-    } else {
-      this.AddComponent<Transform2D>(new Transform2D(null, null, null, this));
-    }
+  public GameObject(Transform2D Transform) {
+    this.name = "GameObject";
+    this.Parent = null;
+    this.Transform = Transform;
+    this.AddComponent<Transform2D>(Transform);
+  }
+
+  public GameObject() {
+    this.name = "GameObject";
+    this.Parent = null;
+    this.Transform = new Transform2D();
+    this.AddComponent<Transform2D>(Transform);
   }
 
   public Component GetComponent<T>()
@@ -51,10 +60,7 @@ public class GameObject {
   }
 
   public virtual void AddComponent<T>(T component)
-      where T : Component {
-    component.SetGameObject<GameObject>(this);
-    components.Add(component);
-  }
+      where T : Component { components.Add(component); }
 
   public virtual void Initialize() {
     foreach (Component component in components) {

@@ -2,14 +2,16 @@ using ImGuiNET;
 using System.Numerics;
 namespace Engine {
 public class Transform2D : Component {
+  private GameObject? parent;
+  private List<GameObject>? children;
   public Vector2 Scale {
     get => _Scale;
     set { _Scale = RecalculateScale(value); }
   }
   Vector2 _Scale;
   private Vector2 RecalculateScale(Vector2 newScale) {
-    if (_gameObject.Parent is not null) {
-      return newScale + _gameObject.Parent.Transform.Scale;
+    if (parent is not null) {
+      return newScale + parent.Transform.Scale;
     }
     return newScale;
   }
@@ -20,8 +22,8 @@ public class Transform2D : Component {
   float _Rotation;
 
   private float RecalculateRotation(float newRotation) {
-    if (_gameObject.Parent is not null) {
-      return newRotation + _gameObject.Parent.Transform.Rotation;
+    if (parent is not null) {
+      return newRotation + parent.Transform.Rotation;
     }
     return newRotation;
   }
@@ -32,40 +34,36 @@ public class Transform2D : Component {
   Vector2 _Position;
 
   private Vector2 RecalculatePosition(Vector2 newPosition) {
-    if (_gameObject.Parent is not null) {
-      return newPosition + _gameObject.Parent.Transform.Position;
+    if (parent is not null) {
+      return newPosition + parent.Transform.Position;
     }
     return newPosition;
   }
 
-  public Transform2D(Vector2? Position, float? Rotation, Vector2? Scale,
-                     GameObject gameObject) {
-    this._gameObject = gameObject;
-    if (Position is not null) {
-      this.Position = (Vector2)Position;
-    } else {
-      this.Position = Vector2.Zero;
-    }
-    if (Rotation is not null) {
-      this.Rotation = (float)Rotation;
-    } else {
-      this.Rotation = 0.0f;
-    }
-    if (Scale is not null) {
-      this.Scale = (Vector2)Scale;
-    } else {
-      this.Scale = Vector2.One;
-    }
-    name = GetType().ToString();
+  public Transform2D(Vector2 Position, float Rotation, Vector2 Scale) {
+    this.Position = Position;
+    this.Rotation = Rotation;
+    this.Scale = Scale;
   }
 
-  public override void DrawInspector() {
-    if (ImGui.ArrowButton(name, ImGuiDir.Down)) {
-      ImGui.DragFloat2("Position", ref _Position);
-      ImGui.DragFloat("Rotation", ref _Rotation);
-      ImGui.DragFloat2("Scale", ref _Position);
-    }
+  public Transform2D() {
+    this.Position = Vector2.Zero;
+    this.Rotation = 0.0f;
+    this.Scale = Vector2.Zero;
   }
+
+  public void SetChildren(List<GameObject>? children) {
+    this.children = children;
+  }
+
+  public void SetParent(GameObject? parent) { this.parent = parent; }
+
+  public override void DrawInspector() {
+    ImGui.DragFloat2("Position", ref _Position);
+    ImGui.DragFloat("Rotation", ref _Rotation);
+    ImGui.DragFloat2("Scale", ref _Position);
+  }
+
   public override void EarlyUpdate() {}
   public override void Update() {}
   public override void LateUpdate() {}
