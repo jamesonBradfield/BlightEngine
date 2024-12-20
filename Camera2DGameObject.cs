@@ -4,14 +4,17 @@ public class Camera2DGameObject : GameObject {
   public CameraComponent2D cameraComponent;
   public Camera2DGameObject(GameObject Parent, Transform2D Transform)
       : base(Parent, Transform) {
+    this.name = "Camera";
     cameraComponent = new(Vector2.Zero, Vector2.One, 0.0f, 0.0f);
     this.AddComponent<CameraComponent2D>(cameraComponent);
   }
   public Camera2DGameObject(Transform2D Transform) : base(Transform) {
+    this.name = "Camera";
     cameraComponent = new(Vector2.Zero, Vector2.One, 0.0f, 0.0f);
     this.AddComponent<CameraComponent2D>(cameraComponent);
   }
   public Camera2DGameObject() : base() {
+    this.name = "Camera";
     cameraComponent = new(Vector2.Zero, Vector2.One, 0.0f, 0.0f);
     this.AddComponent<CameraComponent2D>(cameraComponent);
   }
