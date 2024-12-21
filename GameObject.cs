@@ -107,32 +107,6 @@ namespace Engine
 
         public virtual void DrawInspector()
         {
-            if (this.Children is not null && this.Children.Any<GameObject>())
-            {
-                ImGui.Columns(2);
-                ImGui.Selectable(this.name, ref selected);
-                ImGui.NextColumn();
-                if (ImGui.ArrowButton("expand", ImGuiDir.Down))
-                {
-                    expanded = !expanded;
-                }
-            }
-            else
-            {
-                ImGui.Columns(1);
-                ImGui.Selectable(this.name, ref selected);
-            }
-            if (expanded)
-            {
-                ImGui.Indent(20);
-                if (_Children is not null)
-                {
-                    foreach (GameObject Child in _Children)
-                    {
-                        Child.DrawInspector();
-                    }
-                }
-            }
         }
 
         public virtual void EarlyUpdate()

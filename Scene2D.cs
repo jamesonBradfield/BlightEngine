@@ -1,3 +1,4 @@
+using Raylib_cs;
 namespace Engine
 {
     public sealed class Scene
@@ -20,7 +21,7 @@ namespace Engine
             }
         }
         private List<GameObject> gameObjects = new List<GameObject>();
-
+        public Camera2D activeCamera;
         public List<GameObject> GameObjects
         {
             get => gameObjects;
@@ -44,7 +45,13 @@ namespace Engine
             GameObjects.Remove(gameObject);
         }
 
-        public void Draw() { }
+        public void Draw()
+        {
+            foreach (GameObject gameObject in gameObjects)
+            {
+                gameObject.Draw(activeCamera);
+            }
+        }
 
         public void DrawInspector()
         {

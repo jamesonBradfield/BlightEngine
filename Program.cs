@@ -15,7 +15,10 @@ Camera2DGameObject cam = new Camera2DGameObject(new(Vector2.Zero, 0.0f, Vector2.
 var profiler = new ImGuiProfiler();
 
 scene.AddGameObject(cam);
-scene.AddGameObject(new GameObject(cam, new(Vector2.Zero, 0.0f, Vector2.Zero)));
+scene.activeCamera = cam.cameraComponent.camera2D;
+GameObject square = new GameObject(cam, new(Vector2.Zero, 0.0f, Vector2.Zero));
+square.AddComponent<SquareRendererComponent2D>(new SquareRendererComponent2D(400, Color.Black));
+scene.AddGameObject(square);
 
 while (!Raylib.WindowShouldClose())
 {
@@ -36,7 +39,7 @@ while (!Raylib.WindowShouldClose())
     // Profile hierarchy window
     profiler.BeginProfile("Hierarchy Window");
     ImGui.Begin("Hierarchy");
-    scene.DrawInspector();
+    editor.DrawInspector();
     ImGui.End();
     profiler.EndProfile("Hierarchy Window");
 
@@ -44,6 +47,7 @@ while (!Raylib.WindowShouldClose())
     profiler.Update(Raylib.GetFrameTime());
 
     rlImGui.End();
+    scene.Draw();
     Raylib.EndDrawing();
 
     profiler.EndProfile("Frame Time");

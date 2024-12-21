@@ -1,8 +1,6 @@
 using System.Diagnostics;
 using ImGuiNET;
-using Raylib_cs;
 using System.Numerics;
-using rlImGui_cs;
 
 public class ImGuiProfiler : IDisposable
 {
@@ -36,7 +34,7 @@ public class ImGuiProfiler : IDisposable
         windowSize = new Vector2(300, 400);
 
         // Add a debug metric
-        metrics["DEBUG"] = new ProfilerMetric();
+        // metrics["DEBUG"] = new ProfilerMetric();
     }
 
     public void BeginProfile(string name)
@@ -72,9 +70,9 @@ public class ImGuiProfiler : IDisposable
     public void Update(float deltaTime)
     {
         // Update debug metric
-        BeginProfile("DEBUG");
-        Thread.Sleep(1); // Intentional delay to verify profiler is working
-        EndProfile("DEBUG");
+        // BeginProfile("DEBUG");
+        // Thread.Sleep(1); // Intentional delay to verify profiler is working
+        // EndProfile("DEBUG");
 
         timeSinceLastUpdate += deltaTime;
 

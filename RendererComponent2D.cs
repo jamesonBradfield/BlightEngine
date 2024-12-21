@@ -1,4 +1,5 @@
 using Raylib_cs;
+using System.Numerics;
 namespace Engine
 {
     public class RendererComponent2D : Component
@@ -27,8 +28,15 @@ namespace Engine
         public override void Draw(Camera2D? camera)
         {
             base.Draw(camera);
-            Raylib.GetWorldToScreen2D(transform.Position, (Camera2D)camera);
-            Raylib.DrawRectangle(0, 0, this.size, this.size, this.color);
+            try
+            {
+                Vector2 screenPosition = Raylib.GetWorldToScreen2D(transform.Position, (Camera2D)camera);
+                Raylib.DrawRectangle((int)screenPosition.X, (int)screenPosition.Y, this.size, this.size, this.color);
+            }
+            catch
+            {
+                Console.WriteLine("camera on " + this + " is null");
+            }
         }
     }
 }
