@@ -21,7 +21,7 @@ namespace Engine
             }
         }
         private List<GameObject> gameObjects = new List<GameObject>();
-        public Camera2D activeCamera;
+        public Camera2D? activeCamera;
         public List<GameObject> GameObjects
         {
             get => gameObjects;

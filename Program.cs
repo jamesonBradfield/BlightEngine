@@ -7,6 +7,8 @@ using Engine;
 Raylib.InitWindow(1000, 1000,
                   "Camera2D component system");
 rlImGui.Setup(true);
+var io = ImGui.GetIO();
+io.ConfigFlags |= ImGuiConfigFlags.DockingEnable;
 Scene scene = Scene.Instance;
 Editor2D editor = Editor2D.Instance;
 Camera2DGameObject cam = new Camera2DGameObject(new(Vector2.Zero, 0.0f, Vector2.Zero));
@@ -20,37 +22,18 @@ GameObject square = new GameObject(cam, new(Vector2.Zero, 0.0f, Vector2.Zero));
 square.AddComponent<SquareRendererComponent2D>(new SquareRendererComponent2D(400, Color.Black));
 scene.AddGameObject(square);
 
+EditorUI editorUI = new EditorUI();
+
 while (!Raylib.WindowShouldClose())
 {
-    profiler.BeginProfile("Frame Time");
-
     Raylib.BeginDrawing();
-    Raylib.ClearBackground(Color.Gray);
+    Raylib.ClearBackground(Color.RayWhite);
 
     rlImGui.Begin();
-
-    // Profile your editor window
-    profiler.BeginProfile("Editor Window");
-    ImGui.Begin("SelectedGameObject");
-    editor.DrawSelectedGameObjectsComponents();
-    ImGui.End();
-    profiler.EndProfile("Editor Window");
-
-    // Profile hierarchy window
-    profiler.BeginProfile("Hierarchy Window");
-    ImGui.Begin("Hierarchy");
-    editor.DrawInspector();
-    ImGui.End();
-    profiler.EndProfile("Hierarchy Window");
-
-    // Update profiler (will create its own window)
-    profiler.Update(Raylib.GetFrameTime());
-
+    editorUI.Draw();
     rlImGui.End();
     scene.Draw();
     Raylib.EndDrawing();
-
-    profiler.EndProfile("Frame Time");
 }
 
 profiler.Dispose();
