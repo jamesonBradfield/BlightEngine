@@ -4,14 +4,22 @@ using Raylib_cs;
 
 namespace Engine
 {
+    /// <summary>
+    /// Manages the main editor user interface using ImGui, providing a dockable workspace
+    /// for game development tools like the hierarchy, inspector, and scene view.
+    /// </summary>
     public class EditorUI
     {
         private bool dockspaceOpen = true;
         private ImGuiDockNodeFlags dockspaceFlags = ImGuiDockNodeFlags.None;
-        Editor2D editor = Editor2D.Instance;
-        SceneView sceneView = new SceneView(Scene.Instance);
-		ImGuiProfiler profiler = new();
+        private Editor2D editor = Editor2D.Instance;
+        private SceneView sceneView = new SceneView(Scene.Instance);
+        private ImGuiProfiler profiler = new();
 
+        /// <summary>
+        /// Draws the complete editor interface, including the dockspace and all editor windows.
+        /// Sets up the main dockspace window and manages the layout of all child windows.
+        /// </summary>
         public void Draw()
         {
             // Set up window flags for the main dockspace window
@@ -80,8 +88,12 @@ namespace Engine
 			profiler.EndProfile("FrameTime");
             ImGui.End(); // End DockSpace
         }
-		public void Dispose(){
-			profiler.Dispose();
-		}
+   		/// <summary>
+        /// Releases resources used by the editor UI, particularly the profiler.
+        /// </summary>
+        public void Dispose()
+        {
+            profiler.Dispose();
+        }
     }
 }
