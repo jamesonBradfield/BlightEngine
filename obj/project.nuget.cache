@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "IbFz2DESbiz563BqpAD9LV9zSJHI5h4zk570HKYoEEo+KQRsP9z5/tXgU+X/vIdOEd1KE/xhVJ4h/obN3VparQ==",
+  "dgSpecHash": "59tYJ73Cv4N8a0/Gsfk9No3/81U135Js0EOWuTu+8yMxa420k0kgwg/cjhuJbeSd25p9TyPxGWUHJZEjjnO1rg==",
   "success": true,
   "projectFilePath": "/home/jamie/proj/RaylibCsharpEngineWIP/TestingGrounds.csproj",
   "expectedPackageFiles": [
+    "/home/jamie/.nuget/packages/bytesize/2.1.2/bytesize.2.1.2.nupkg.sha512",
     "/home/jamie/.nuget/packages/imgui.net/1.90.9.1/imgui.net.1.90.9.1.nupkg.sha512",
     "/home/jamie/.nuget/packages/raylib-cs/6.1.1/raylib-cs.6.1.1.nupkg.sha512",
     "/home/jamie/.nuget/packages/rlimgui-cs/2.1.0/rlimgui-cs.2.1.0.nupkg.sha512",

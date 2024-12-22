@@ -9,10 +9,19 @@
       "TestingGrounds/1.0.0": {
         "dependencies": {
           "Raylib-cs": "6.1.1",
+          "ByteSize": "2.1.2",
           "rlImgui-cs": "2.1.0"
         },
         "runtime": {
           "TestingGrounds.dll": {}
+        }
+      },
+      "ByteSize/2.1.2": {
+        "runtime": {
+          "lib/net5.0/ByteSize.dll": {
+            "assemblyVersion": "2.1.2.0",
+            "fileVersion": "2.1.2.0"
+          }
         }
       },
       "ImGui.NET/1.90.9.1": {
@@ -115,6 +124,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "ByteSize/2.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dSiH9B0apNU5abV3OVUs3eTfHiidEAa8IMOLGW0eEl5tB8Ba1ngkGC7RT/RGy61ifGcPzCe7DMP78KB8pA5kNg==",
+      "path": "bytesize/2.1.2",
+      "hashPath": "bytesize.2.1.2.nupkg.sha512"
     },
     "ImGui.NET/1.90.9.1": {
       "type": "package",

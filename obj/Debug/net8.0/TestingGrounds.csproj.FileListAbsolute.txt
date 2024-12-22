@@ -58,3 +58,4 @@
 /home/jamie/proj/RaylibCsharpEngineWIP/obj/Debug/net8.0/TestingGrounds.pdb
 /home/jamie/proj/RaylibCsharpEngineWIP/obj/Debug/net8.0/TestingGrounds.genruntimeconfig.cache
 /home/jamie/proj/RaylibCsharpEngineWIP/obj/Debug/net8.0/ref/TestingGrounds.dll
+/home/jamie/proj/RaylibCsharpEngineWIP/bin/Debug/net8.0/ByteSize.dll

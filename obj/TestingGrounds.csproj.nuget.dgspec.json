@@ -42,6 +42,10 @@
               "target": "Package",
               "version": "[6.1.1, )"
             },
+            "bytesize": {
+              "target": "Package",
+              "version": "[2.1.2, )"
+            },
             "rlImGui-cs": {
               "target": "Package",
               "version": "[2.1.0, )"

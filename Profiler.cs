@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using ImGuiNET;
 using System.Numerics;
+using ByteSizeLib;
 
 public class ImGuiProfiler : IDisposable
 {
@@ -11,6 +12,7 @@ public class ImGuiProfiler : IDisposable
     private Vector2 windowPosition;
     private Vector2 windowSize;
     private bool firstFrame = true;
+	private Process proc = Process.GetCurrentProcess();
 
     private class ProfilerMetric
     {
@@ -20,7 +22,6 @@ public class ImGuiProfiler : IDisposable
         public float MinTime { get; set; } = float.MaxValue;
         public float MaxTime { get; set; }
         public int Samples { get; set; }
-
         public const int MaxHistorySize = 100;
     }
 
@@ -82,7 +83,7 @@ public class ImGuiProfiler : IDisposable
             ImGui.SetNextWindowSize(windowSize);
             firstFrame = false;
         }
-
+		proc.Refresh();
         UpdateProfilerWindow();
     }
 
@@ -99,6 +100,7 @@ public class ImGuiProfiler : IDisposable
         {
             ImGui.Text($"Active Metrics: {metrics.Count}");
             ImGui.Text($"Profiler Status: Active");
+			ImGui.Text($"Ram: {ByteSize.FromBytes(proc.PrivateMemorySize64).GigaBytes} Gb");
 
             foreach (var kvp in metrics)
             {
@@ -111,7 +113,6 @@ public class ImGuiProfiler : IDisposable
                     ImGui.Text($"Min: {metric.MinTime:F2}ms");
                     ImGui.Text($"Max: {metric.MaxTime:F2}ms");
                     ImGui.Text($"Samples: {metric.Samples}");
-
                     var history = metric.History.ToArray();
                     if (history.Length > 0)
                     {
@@ -127,6 +128,7 @@ public class ImGuiProfiler : IDisposable
                     ImGui.TreePop();
                 }
             }
+
         }
         ImGui.End();
     }
