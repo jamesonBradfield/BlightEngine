@@ -100,6 +100,7 @@ public class ImGuiProfiler : IDisposable
         {
             ImGui.Text($"Active Metrics: {metrics.Count}");
             ImGui.Text($"Profiler Status: Active");
+			//TODO: add treenode and graphing for ram
 			ImGui.Text($"Ram: {ByteSize.FromBytes(proc.PrivateMemorySize64).GigaBytes} Gb");
 
             foreach (var kvp in metrics)
