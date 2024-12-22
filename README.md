@@ -1,6 +1,6 @@
 # About
 this is a Raylib C# engine I'm building for architecture practice, it uses rlImGui-cs and ImGuiNET along with Raylib-cs. Currently i am still yet to display anything.
-##Features
+## Features
 - Hierarchy
 - Transform2D
 - Component System
