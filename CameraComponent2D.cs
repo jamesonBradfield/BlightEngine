@@ -14,7 +14,7 @@ namespace Engine
         {
             camera2D = new Camera2D(Offset, Target, Rotation, Zoom);
         }
-        public override void Draw(Camera2D? camera)
+        public override void Draw(Camera2D camera)
         {
             //we might want to implement something here.
         }

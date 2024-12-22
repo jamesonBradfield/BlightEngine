@@ -10,16 +10,21 @@ rlImGui.Setup(true);
 var io = ImGui.GetIO();
 io.ConfigFlags |= ImGuiConfigFlags.DockingEnable;
 Scene scene = Scene.Instance;
-Editor2D editor = Editor2D.Instance;
-Camera2DGameObject cam = new Camera2DGameObject(new(Vector2.Zero, 0.0f, Vector2.Zero));
-
-// Create profiler instance
-var profiler = new ImGuiProfiler();
-
+// Create camera with centered view
+Camera2DGameObject cam = new();
+cam.cameraComponent.camera2D.Target = Vector2.Zero;  // Look at center
+cam.cameraComponent.camera2D.Zoom = 1.0f;  // Normal zoom
 scene.AddGameObject(cam);
 scene.activeCamera = cam.cameraComponent.camera2D;
-GameObject square = new GameObject(cam, new(Vector2.Zero, 0.0f, Vector2.Zero));
-square.AddComponent<SquareRendererComponent2D>(new SquareRendererComponent2D(400, Color.Black));
+
+// Create square at a visible position
+var squareTransform = new Transform2D(
+    Position: new Vector2(0, 0),  // Center position
+    Rotation: 0.0f,
+    Scale: Vector2.One
+);
+GameObject square = new GameObject(cam, squareTransform);
+square.AddComponent<SquareRendererComponent2D>(new SquareRendererComponent2D(100, Color.Black));  // Smaller size to start
 scene.AddGameObject(square);
 
 EditorUI editorUI = new EditorUI();
@@ -32,9 +37,7 @@ while (!Raylib.WindowShouldClose())
     rlImGui.Begin();
     editorUI.Draw();
     rlImGui.End();
-    scene.Draw();
     Raylib.EndDrawing();
 }
-
-profiler.Dispose();
+editorUI.Dispose();
 rlImGui.Shutdown();

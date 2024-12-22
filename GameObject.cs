@@ -1,5 +1,4 @@
 using Raylib_cs;
-using ImGuiNET;
 namespace Engine
 {
     public class GameObject
@@ -7,7 +6,7 @@ namespace Engine
         public string name;
         protected bool selected = false;
         protected bool expanded = false;
-        private List<GameObject>? _Children = new List<GameObject>();
+        private List<GameObject> _Children = new List<GameObject>();
         private GameObject? _Parent;
         private List<Component> components = new List<Component>();
 
@@ -36,13 +35,14 @@ namespace Engine
             get => _Transform;
             set => _Transform = value;
         }
-        private Transform2D _Transform;
+        //will never actually be null, this just shuts up the diagnostics
+        private Transform2D? _Transform;
         public GameObject(GameObject Parent, Transform2D Transform)
         {
             this.name = "GameObject";
             this.Transform = Transform;
             this.Parent = Parent;
-            this.Parent.Children.Add(this);
+            this.Parent.Children?.Add(this);
             this.AddComponent<Transform2D>(Transform);
         }
 
@@ -89,7 +89,7 @@ namespace Engine
             }
         }
 
-        public virtual void Draw(Camera2D? camera)
+        public virtual void Draw(Camera2D camera)
         {
             foreach (Component component in components)
             {
@@ -97,7 +97,16 @@ namespace Engine
             }
         }
 
-        public virtual void Draw(Camera3D? camera)
+        public virtual void Draw(Camera3D camera)
+        {
+            DrawComponents(camera);
+            foreach (GameObject child in Children)
+            {
+                child.Draw(camera);
+            }
+        }
+
+        private void DrawComponents(Camera3D camera)
         {
             foreach (Component component in components)
             {

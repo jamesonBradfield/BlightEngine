@@ -1,5 +1,6 @@
 using ImGuiNET;
 using System.Numerics;
+using Raylib_cs;
 
 namespace Engine
 {
@@ -8,6 +9,8 @@ namespace Engine
         private bool dockspaceOpen = true;
         private ImGuiDockNodeFlags dockspaceFlags = ImGuiDockNodeFlags.None;
         Editor2D editor = Editor2D.Instance;
+        SceneView sceneView = new SceneView(Scene.Instance);
+		ImGuiProfiler profiler = new();
 
         public void Draw()
         {
@@ -54,21 +57,31 @@ namespace Engine
             }
 
             // Example windows that can be docked
+			profiler.BeginProfile("FrameTime");
+			profiler.BeginProfile("Hierarchy");
             ImGui.Begin("Hierarchy");
             // Your hierarchy content here
             editor.DrawInspector();
             ImGui.End();
-
+			profiler.EndProfile("Hierarchy");
+			profiler.BeginProfile("Inspector");
             ImGui.Begin("Inspector");
             // Your inspector content here
             editor.DrawSelectedGameObjectsComponents();
             ImGui.End();
-
+			profiler.EndProfile("Inspector");
+			profiler.BeginProfile("Scene View");
             ImGui.Begin("Scene View");
             // Your scene view content here
+            sceneView.Draw();
             ImGui.End();
-
+			profiler.EndProfile("Scene View");
+			profiler.Update(Raylib.GetFrameTime());
+			profiler.EndProfile("FrameTime");
             ImGui.End(); // End DockSpace
         }
+		public void Dispose(){
+			profiler.Dispose();
+		}
     }
 }

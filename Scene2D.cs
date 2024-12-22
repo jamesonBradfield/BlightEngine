@@ -20,12 +20,12 @@ namespace Engine
                 }
             }
         }
-        private List<GameObject> gameObjects = new List<GameObject>();
-        public Camera2D? activeCamera;
-        public List<GameObject> GameObjects
+        private List<GameObject> rootGameObjects = new List<GameObject>();
+        public Camera2D activeCamera;
+        public List<GameObject> RootGameObjects
         {
-            get => gameObjects;
-            set => gameObjects = value;
+            get => rootGameObjects;
+            set => rootGameObjects = value;
         }
 
         public void AddGameObject<T>(T gameObject)
@@ -37,17 +37,17 @@ namespace Engine
             }
             else if (gameObject.Parent is null)
             {
-                gameObjects.Add(gameObject);
+                rootGameObjects.Add(gameObject);
             }
         }
         public void RemoveGameObject(GameObject gameObject)
         {
-            GameObjects.Remove(gameObject);
+            RootGameObjects.Remove(gameObject);
         }
 
         public void Draw()
         {
-            foreach (GameObject gameObject in gameObjects)
+            foreach (GameObject gameObject in rootGameObjects)
             {
                 gameObject.Draw(activeCamera);
             }
@@ -55,7 +55,7 @@ namespace Engine
 
         public void DrawInspector()
         {
-            foreach (GameObject gameObject in GameObjects)
+            foreach (GameObject gameObject in RootGameObjects)
             {
                 gameObject.DrawInspector();
             }
@@ -63,7 +63,7 @@ namespace Engine
 
         public void EarlyUpdate()
         {
-            foreach (GameObject gameObject in GameObjects)
+            foreach (GameObject gameObject in RootGameObjects)
             {
                 gameObject.EarlyUpdate();
             }
@@ -71,7 +71,7 @@ namespace Engine
 
         public void Update()
         {
-            foreach (GameObject gameObject in GameObjects)
+            foreach (GameObject gameObject in RootGameObjects)
             {
                 gameObject.Update();
             }
@@ -79,7 +79,7 @@ namespace Engine
 
         public void LateUpdate()
         {
-            foreach (GameObject gameObject in GameObjects)
+            foreach (GameObject gameObject in RootGameObjects)
             {
                 gameObject.LateUpdate();
             }

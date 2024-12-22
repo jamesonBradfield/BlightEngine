@@ -85,7 +85,7 @@ namespace Engine
             }
 
             // Draw each root-level game object in the scene
-            foreach (GameObject gameObject in scene.GameObjects)
+            foreach (GameObject gameObject in scene.RootGameObjects)
             {
                 DrawGameObjectNode(gameObject);
             }
