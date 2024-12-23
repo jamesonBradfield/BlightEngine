@@ -118,7 +118,68 @@ public class ImGuiProfiler : IDisposable
     /// <param name="deltaTime">Time elapsed since last frame.</param>
     public void Update(float deltaTime)
     {
-        // Implementation details...
+        // Update debug metric
+        // BeginProfile("DEBUG");
+        // Thread.Sleep(1); // Intentional delay to verify profiler is working
+        // EndProfile("DEBUG");
+
+        timeSinceLastUpdate += deltaTime;
+
+        if (firstFrame)
+        {
+            ImGui.SetNextWindowPos(windowPosition);
+            ImGui.SetNextWindowSize(windowSize);
+            firstFrame = false;
+        }
+		proc.Refresh();
+        UpdateProfilerWindow();
+    }
+
+    private void UpdateProfilerWindow()
+    {
+        if (!isVisible) return;
+
+        var windowFlags = ImGuiWindowFlags.None;
+
+        ImGui.SetNextWindowPos(windowPosition, ImGuiCond.FirstUseEver);
+        ImGui.SetNextWindowSize(windowSize, ImGuiCond.FirstUseEver);
+
+        if (ImGui.Begin("Performance Profiler###PerfProfiler", ref isVisible, windowFlags))
+        {
+            ImGui.Text($"Active Metrics: {metrics.Count}");
+            ImGui.Text($"Profiler Status: Active");
+			//TODO: add treenode and graphing for ram
+			ImGui.Text($"Ram: {ByteSize.FromBytes(proc.PrivateMemorySize64).GigaBytes} Gb");
+
+            foreach (var kvp in metrics)
+            {
+                var name = kvp.Key;
+                var metric = kvp.Value;
+
+                if (ImGui.TreeNode(name))
+                {
+                    ImGui.Text($"Average: {metric.AverageTime:F2}ms");
+                    ImGui.Text($"Min: {metric.MinTime:F2}ms");
+                    ImGui.Text($"Max: {metric.MaxTime:F2}ms");
+                    ImGui.Text($"Samples: {metric.Samples}");
+                    var history = metric.History.ToArray();
+                    if (history.Length > 0)
+                    {
+                        ImGui.PlotLines($"##History{name}",
+                            ref history[0],
+                            history.Length,
+                            0,
+                            "History (ms)",
+                            metric.MinTime,
+                            metric.MaxTime,
+                            new Vector2(ImGui.GetContentRegionAvail().X, 80));
+                    }
+                    ImGui.TreePop();
+                }
+            }
+
+        }
+        ImGui.End();
     }
 
     /// <summary>
